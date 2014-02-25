@@ -19,51 +19,6 @@ module.exports = function (grunt) {
       files: ['test/**/*_test.js']
     },
     coffee: {
-      // build: {
-      //   options: {
-      //     bare: true
-      //     // sourceMap: true
-      //   },
-      //   files: {
-      //     'build/js/utils.js'    : 'src/utils.coffee',
-      //     'build/js/debug.js'    : 'src/debug.coffee',
-      //     'build/js/compose.js'  : 'src/compose.coffee',
-      //     'build/js/event.js'    : 'src/event.coffee',
-      //     'build/js/advice.js'   : 'src/advice.coffee',
-      //     'build/js/lifecycle.js': 'src/lifecycle.coffee',
-      //     'build/js/property.js' : 'src/property.coffee',
-      //     'build/js/dou.js'      : 'src/dou.coffee'
-      //   }
-      // },
-
-      // compileJoined: {
-      //   options: {
-      //     join: true
-      //   },
-      //   files: {
-      //     'dou.js': [
-      //       'src/utils.coffee',
-      //       'src/debug.coffee',
-      //       'src/compose.coffee',
-      //       'src/event.coffee',
-      //       'src/advice.coffee',
-      //       'src/lifecycle.coffee',
-      //       'src/property.coffee',
-      //       'src/dou.coffee'
-      //     ] // concat then compile into single file
-      //   }
-      // },
-
-      // compileWithMapsDir: {
-      //   options: {
-      //     sourceMap: true,
-      //     sourceMapDir: 'path/to/maps/' // source map files will be created here
-      //   },
-      //   files: {
-      //     'path/to/result.js': 'path/to/source.coffee'
-      //   }
-      // },
-
       build: {
         options: {
           bare: false,
