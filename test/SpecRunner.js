@@ -1,15 +1,10 @@
 require.config({
   baseUrl: '..',
   paths: {
-    'mocha'         : 'test/bower_components/mocha/mocha',
-    'jasmine'       : 'test/bower_components/jasmine/mocha',
-    'chai'          : 'test/bower_components/chai/chai',
-    'dou'           : 'dou'
+    'mocha'         : 'bower_components/mocha/mocha',
+    'chai'          : 'bower_components/chai/chai'
   },
   shim: {
-    dou: {
-      deps: []
-    },
     mocha: {
       exports: 'mocha'
     }
@@ -32,7 +27,8 @@ require(['require', 'chai', 'mocha'], function(require, chai){
     'dou',
     'lifecycle',
     'mixin',
-    'serialize'
+    'serialize',
+    'event'
   ].map(function(t) {return 'spec/' + t + '_spec.js'})
   , function(require) {
     mocha.run();

@@ -32,6 +32,8 @@
   ],
   "devDependencies": {
     "es5-shim": ">=2.3.0",
+    "chai": ">=1.8.0",
+    "mocha": ">=1.14.0",
     "requirejs": ">=2.1.11"
   }
 }

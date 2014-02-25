@@ -2,6 +2,8 @@ dou
 =======
 
 Light-weight javascript module framework
+(Inspired by flight - A component-based, event-driven JavaScript framework from Twitter 
+http://flightjs.github.io/)
 
 ## Features
  * Mixin base

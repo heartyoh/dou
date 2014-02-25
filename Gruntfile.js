@@ -63,7 +63,7 @@ module.exports = function (grunt) {
       }
     },
     jsbeautifier: {
-        files: ["build/js/**/*.js"],
+        files: ["src/**/*.js"],
         options: {
         }
     },

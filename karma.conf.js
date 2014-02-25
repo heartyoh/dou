@@ -10,7 +10,6 @@ module.exports = function(config) {
       'bower_components/es5-shim/es5-shim.js',
       'bower_components/es5-shim/es5-sham.js',
 
-      // 'src/util.coffee',
       // hack to load RequireJS after the shim libs
       'node_modules/requirejs/require.js',
       'node_modules/karma-requirejs/lib/adapter.js',
