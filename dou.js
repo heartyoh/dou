@@ -1,4 +1,4 @@
-/*! dou - v0.0.1 - 2014-02-25
+/*! dou - v0.0.2 - 2014-02-25
 * https://github.com/heartyoh/dou
 * Copyright (c) 2014 Hearty, Oh.; Licensed MIT */
 (function() {
@@ -140,7 +140,7 @@
   define([], function() {
     "use strict";
     var ALL, byName, byNameContains, byType, byValue, byValueCoerced, custom, defaultActionsFilter, defaultEventNamesFilter, filterEventLogsByAction, filterEventLogsByName, global, hideAllEventLogs, logFilter, retrieveLogFilter, saveLogFilter, search, showAllEventLogs, tests, traverse;
-    global = window || {};
+    global = typeof window === 'undefined' ? {} : window;
     traverse = function(comparator, clue, options) {
       var obj, path, prop, _results;
       options = options || {};

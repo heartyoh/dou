@@ -4,8 +4,7 @@
 /Gemfile
 /Rakefile
 /lib/
-/build/
 /node_modules/
 /test/
 /vendor/
-/sample
+/example

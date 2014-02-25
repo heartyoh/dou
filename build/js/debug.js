@@ -4,7 +4,7 @@
   define([], function() {
     "use strict";
     var ALL, byName, byNameContains, byType, byValue, byValueCoerced, custom, defaultActionsFilter, defaultEventNamesFilter, filterEventLogsByAction, filterEventLogsByName, global, hideAllEventLogs, logFilter, retrieveLogFilter, saveLogFilter, search, showAllEventLogs, tests, traverse;
-    global = window || {};
+    global = typeof window === 'undefined' ? {} : window;
     traverse = function(comparator, clue, options) {
       var obj, path, prop, _results;
       options = options || {};

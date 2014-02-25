@@ -11,7 +11,7 @@ define [], ->
     # ==========================================
     # Search object model
     # ==========================================
-    global = window || {}
+    global = if typeof(window) is 'undefined' then {} else window
 
     traverse = (comparator, clue, options) ->
         options = options or {}

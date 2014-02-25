@@ -1,7 +1,7 @@
 {
   "name": "dou",
   "main": "dou.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/heartyoh/dou",
   "authors": [
     "heartyoh <heartyoh@gmail.com>"
@@ -26,7 +26,7 @@
     "bower_components",
     "vendor",
     "lib",
-    "sample",
+    "example",
     "test",
     "tests"
   ],
