@@ -1,0 +1,37 @@
+{
+  "name": "dou",
+  "main": "dou.js",
+  "version": "0.0.1",
+  "homepage": "https://github.com/heartyoh/dou",
+  "authors": [
+    "heartyoh <heartyoh@gmail.com>"
+  ],
+  "description": "Light-weight javascript module framework",
+  "keywords": [
+    "module",
+    "mixin"
+  ],
+  "dependencies": {
+  },
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "*.gemspec",
+    "*.gem",
+    "Gemfile",
+    "Gruntfile.js",
+    "package.json",
+    "Rakefile",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "lib",
+    "sample",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "es5-shim": ">=2.3.0",
+    "requirejs": ">=2.1.11"
+  }
+}

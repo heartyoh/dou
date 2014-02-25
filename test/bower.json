@@ -1,0 +1,11 @@
+{
+  "name": "dou",
+  "private": true,
+  "dependencies": {
+    "chai": ">=1.8.0",
+    "mocha": ">=1.14.0",
+    "requirejs": ">=2.1.10"
+  },
+  "devDependencies": {
+  }
+}

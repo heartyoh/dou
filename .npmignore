@@ -1,0 +1,11 @@
+/.gitignore
+/.jshintrc
+/.travis.yml
+/Gemfile
+/Rakefile
+/lib/
+/build/
+/node_modules/
+/test/
+/vendor/
+/sample
