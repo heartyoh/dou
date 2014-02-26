@@ -59,5 +59,5 @@
 
 {{ module }}
 
-  context.dou = require('lib/index');
+  context.dou = require('build/js/dou');
 }(this));

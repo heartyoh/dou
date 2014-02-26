@@ -1,4 +1,4 @@
-/*! Dou v0.0.4 | (c) Hatio, Lab. | MIT License */
+/*! Dou v0.0.5 | (c) Hatio, Lab. | MIT License */
 (function(context) {
   var factories = {}, loaded = {};
   var isArray = Array.isArray || function(obj) {
@@ -898,5 +898,5 @@
     });
 }.call(this));
 
-  context.dou = require('lib/index');
+  context.dou = require('build/js/dou');
 }(this));
