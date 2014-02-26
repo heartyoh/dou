@@ -63,5 +63,34 @@ define(['property', 'compose'], function (property, compose) {
 
   });
 
+  describe('Property change event', function() { 
+      describe('#set() #get()', function () {
+        it('should emit change event when its properties are changed', function () {
+
+          var Animal = function (name) {
+              this.name = name;
+          };
+              
+          Animal.prototype = {
+              getName : function () {
+                  return this.name;
+              }
+          }
+          compose.mixin(Animal.prototype, property);
+      
+          var dog = new Animal('wang');
+          
+          var ev;
+          dog.on('change', function(e) {
+            ev = e;
+          });
+          
+          dog.set('buck', 'puck');
+
+          expect(ev.before.buck).to.equal(undefined);
+          expect(ev.after.buck).to.equal('puck');
+        });
+      });      
+  });
 });
 

@@ -38,14 +38,14 @@ define(['utils'], function (utils) {
         expect(merged.d).to.equal(78);
       });
 
-      // it('does not recursively merge when not requested', function () {
-      //   merged = utils.merge({}, foo, moo);
-      //   expect(merged.a).to.equal(32);
-      //   expect(merged.b.aa).to.equal(37);
-      //   expect(merged.b.bb).to.equal(undefined);
-      //   expect(merged.b.cc).to.equal(58);
-      //   expect(merged.d).to.equal(78);
-      // });
+      it('does not recursively merge when not requested', function () {
+        merged = utils.merge({}, foo, moo);
+        expect(merged.a).to.equal(32);
+        expect(merged.b.aa).to.equal(37);
+        // expect(merged.b.bb).to.equal(undefined);
+        expect(merged.b.cc).to.equal(58);
+        expect(merged.d).to.equal(78);
+      });
 
       it('merges more than two objects', function () {
         merged = utils.merge(foo, boo, moo);

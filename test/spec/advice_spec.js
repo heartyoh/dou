@@ -1,115 +1,106 @@
-// "use strict";
+"use strict";
 
-// define(['build/js/component', 'build/js/advice'], function (defineComponent, advice) {
+define(['advice'], function (advice) {
 
-//   var Component = (function () {
-//     return defineComponent(function fnTest() {
-//     });
-//   })();
+  describe('(Core) advice', function () {
 
-//   describe('(Core) advice', function () {
+    it('should call the "before" function before the base function and return the base function', function () {
+      var test1 = "";
 
-//     afterEach(function () {
-//       Component.teardownAll();
-//     });
+      function base(arg) {
+        test1 += 'Base: ' + arg;
+        return 'base';
+      }
 
-//     it('should call the "before" function before the base function and return the base function', function () {
-//       var test1 = "";
+      var advised = advice.before(base, function (arg) {
+        test1 += "Before: " + arg + ', ';
+        return 'before';
+      });
 
-//       function base(arg) {
-//         test1 += 'Base: ' + arg;
-//         return 'base';
-//       }
+      expect(advised('Dan')).to.equal('base');
+      expect(test1).to.equal('Before: Dan, Base: Dan');
+    });
 
-//       var advised = advice.before(base, function (arg) {
-//         test1 += "Before: " + arg + ', ';
-//         return 'before';
-//       });
+    it('should call the "after" function after the base function, but return the base function', function () {
+      var test1 = "";
 
-//       expect(advised('Dan')).toBe('base');
-//       expect(test1).toBe('Before: Dan, Base: Dan');
-//     });
+      function base(arg) {
+        test1 += 'Base: ' + arg;
+        return 'base';
+      }
 
-//     it('should call the "after" function after the base function, but return the base function', function () {
-//       var test1 = "";
+      var advised = advice.after(base, function (arg) {
+        test1 += ", After: " + arg;
+        return 'after';
+      });
 
-//       function base(arg) {
-//         test1 += 'Base: ' + arg;
-//         return 'base';
-//       }
+      expect(advised('Dan')).to.equal('base');
+      expect(test1).to.equal('Base: Dan, After: Dan');
+    });
 
-//       var advised = advice.after(base, function (arg) {
-//         test1 += ", After: " + arg;
-//         return 'after';
-//       });
+    it('should wrap the the first "around" argument with the second argument', function () {
+      var test1 = "";
 
-//       expect(advised('Dan')).toBe('base');
-//       expect(test1).toBe('Base: Dan, After: Dan');
-//     });
+      function base(arg) {
+        test1 += 'Base: ' + arg;
+        return 'base';
+      }
 
-//     it('should wrap the the first "around" argument with the second argument', function () {
-//       var test1 = "";
+      var advised = advice.around(base, function (orig, arg) {
+        test1 += '|';
+        orig(arg);
+        test1 += '|';
+        return 'around';
+      });
 
-//       function base(arg) {
-//         test1 += 'Base: ' + arg;
-//         return 'base';
-//       }
+      expect(advised('Dan')).to.equal('around');
+      expect(test1).to.equal('|Base: Dan|');
+    });
 
-//       var advised = advice.around(base, function (orig, arg) {
-//         test1 += '|';
-//         orig(arg);
-//         test1 += '|';
-//         return 'around';
-//       });
+    describe("withAdvice", function () {
+      it('should add "before", "after" and "around" to an object', function () {
+        var subject = {
+          testa: '',
+          testb: '',
+          testc: '',
+          a: function () {
+            this.testa += 'A!';
+          },
+          b: function () {
+            this.testb += 'B!';
+          },
+          c: function () {
+            this.testc += 'C!';
+          }
+        }
 
-//       expect(advised('Dan')).toBe('around');
-//       expect(test1).toBe('|Base: Dan|');
-//     });
+        advice.withAdvice.call(subject);
 
-//     describe("withAdvice", function () {
-//       it('should add "before", "after" and "around" to an object', function () {
-//         var subject = {
-//           testa: '',
-//           testb: '',
-//           testc: '',
-//           a: function () {
-//             this.testa += 'A!';
-//           },
-//           b: function () {
-//             this.testb += 'B!';
-//           },
-//           c: function () {
-//             this.testc += 'C!';
-//           }
-//         }
+        subject.before('a', function () {
+          this.testa += 'BEFORE!';
+        });
 
-//         advice.withAdvice.call(subject);
+        subject.after('b', function () {
+          this.testb += 'AFTER!';
+        });
 
-//         subject.before('a', function () {
-//           this.testa += 'BEFORE!';
-//         });
+        subject.around('c', function (orig) {
+          this.testc += '|';
+          orig.call(subject);
+          this.testc += '|';
+        });
 
-//         subject.after('b', function () {
-//           this.testb += 'AFTER!';
-//         });
+        subject.a();
+        expect(subject.testa).to.equal('BEFORE!A!');
 
-//         subject.around('c', function (orig) {
-//           this.testc += '|';
-//           orig.call(subject);
-//           this.testc += '|';
-//         });
+        subject.b();
+        expect(subject.testb).to.equal('B!AFTER!');
 
-//         subject.a();
-//         expect(subject.testa).toBe('BEFORE!A!');
+        subject.c();
+        expect(subject.testc).to.equal('|C!|');
+      });
+    });
 
-//         subject.b();
-//         expect(subject.testb).toBe('B!AFTER!');
+  });
 
-//         subject.c();
-//         expect(subject.testc).toBe('|C!|');
-//       });
-//     });
-
-//   });
-
-// });
+});
