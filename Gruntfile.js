@@ -137,12 +137,24 @@ module.exports = function (grunt) {
     changelog: {
       options: {
       }
+    },
+    exec: {
+      build_gem: {
+        command: "gem build dou.gemspec"
+      },
+      push_gem: {
+        command: "gem push dou-rails-<%= pkg.version %>.gem"
+      },
+      publish_npm: {
+        command: "npm publish"
+      }
     }
   });
 
   grunt.registerTask('bumpup', ['bump-only', 'replace:bump-gem'])
   // grunt.registerTask('build', ['coffee:build', 'concat:build', 'uglify:build', 'copy:rails']);
   grunt.registerTask('build', ['coffee:build', 'execute:standalone', 'copy:rails']);
+  grunt.registerTask('release', ['bumpup', 'build', 'exec:build_gem', 'exec:push_gem', 'exec:publish_npm']);
 
   // Default task.
   grunt.registerTask('default', ['build']);
