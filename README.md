@@ -4,12 +4,16 @@ Light-weight javascript module framework
 (Inspired by flight - A component-based, event-driven JavaScript framework from Twitter 
 http://flightjs.github.io/)
 
-## dou means 
-都 (together) - Chinese
-Do you .. - English
+## dou means ..
+ * 都 (together) - Chinese pinyin
+ * Do you .. - English
 
 ## Features
- * Mixin base
+ * Advice
+ * Mixin
+ * Event
+ * Property
+ * Life Cycle
  
 ## Usage
 
