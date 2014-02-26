@@ -2,7 +2,7 @@
 
 define(['advice'], function (advice) {
 
-  describe('(Core) advice', function () {
+  describe('(Core) Advice', function () {
 
     it('should call the "before" function before the base function and return the base function', function () {
       var test1 = "";

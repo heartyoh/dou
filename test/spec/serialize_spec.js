@@ -2,7 +2,7 @@
 
 define(['serialize', 'compose'], function (serialize, compose) {
 
-  describe('serialize', function () {
+  describe('(Core) Serialize', function () {
 
     it('should generate stringified object notation contained attributes information.', function () {
       var base = {

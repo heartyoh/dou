@@ -2,7 +2,7 @@
 
 define(['utils'], function (utils) {
 
-  describe('(Core) utils', function () {
+  describe('(Core) Utils', function () {
 
     describe('merge()', function () {
 

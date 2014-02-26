@@ -1,7 +1,7 @@
 define(['utils', 'event'], function(utils, event) {
     "use strict";
 
-    describe('Event', function() { 
+    describe('(Core) Event', function() { 
         describe('#listenTo() #trigger()', function () {
           it('should receive listening event from the event', function () {
 

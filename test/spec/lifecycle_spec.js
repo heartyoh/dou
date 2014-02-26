@@ -2,7 +2,7 @@
 
 define(['lifecycle', 'compose'], function (lifecycle, compose) {
 
-  describe('lifecycle', function () {
+  describe('(Core) Lifecycle', function () {
 
     it('should be merged default attributes to initial attributes.', function () {
       var base = {

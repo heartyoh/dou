@@ -2,7 +2,7 @@
 
 define(['utils', 'compose'], function (utils, compose) {
 
-  describe('(Core) mixin', function () {
+  describe('(Core) Mixin', function () {
 
     // var canWriteProtect = !utils.isEnumerable(Object, 'getOwnPropertyDescriptor');
 

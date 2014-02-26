@@ -6,7 +6,12 @@
 
 define [
     './compose'
-], (compose) ->
+    './advice'
+    './lifecycle'
+    './property'
+    './serialize'
+    './event'
+], (compose, advice, lifecycle, property, serialize, event) ->
     
     "use strict"
 
@@ -26,4 +31,10 @@ define [
 
     {
         define: define
+        with:
+            advice: advice.withAdvice
+            property: property
+            lifecycle: lifecycle
+            event: event.withEvent
+            serialize: serialize
     }

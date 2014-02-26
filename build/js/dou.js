@@ -2,7 +2,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['./compose'], function(compose) {
+  define(['./compose', './advice', './lifecycle', './property', './serialize', './event'], function(compose, advice, lifecycle, property, serialize, event) {
     "use strict";
     var define;
     define = function(options) {
@@ -35,7 +35,14 @@
       return Component;
     };
     return {
-      define: define
+      define: define,
+      "with": {
+        advice: advice.withAdvice,
+        property: property,
+        lifecycle: lifecycle,
+        event: event.withEvent,
+        serialize: serialize
+      }
     };
   });
 

@@ -1,4 +1,4 @@
-/*! Dou v0.0.5 | (c) Hatio, Lab. | MIT License */
+/*! Dou v0.0.6 | (c) Hatio, Lab. | MIT License */
 (function(context) {
   var factories = {}, loaded = {};
   var isArray = Array.isArray || function(obj) {
@@ -840,7 +840,14 @@
             child.__super__ = parent.prototype;
             return child;
         };
-    define('build/js/dou', ['./compose'], function (compose) {
+    define('build/js/dou', [
+        './compose',
+        './advice',
+        './lifecycle',
+        './property',
+        './serialize',
+        './event'
+    ], function (compose, advice, lifecycle, property, serialize, event) {
         'use strict';
         var define;
         define = function (options) {
@@ -868,7 +875,16 @@
             }
             return Component;
         };
-        return { define: define };
+        return {
+            define: define,
+            'with': {
+                advice: advice.withAdvice,
+                property: property,
+                lifecycle: lifecycle,
+                event: event.withEvent,
+                serialize: serialize
+            }
+        };
     });
 }.call(this));
 (function () {
