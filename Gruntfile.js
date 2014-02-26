@@ -33,6 +33,11 @@ module.exports = function (grunt) {
         ext: '.js'
       }
     },
+    execute: {
+      standalone: {
+        src: 'tools/standalone/build.js'
+      }
+    },
     concat: {
       options: {
         banner: '<%= banner %>',
@@ -136,7 +141,8 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('bumpup', ['bump-only', 'replace:bump-gem'])
-  grunt.registerTask('build', ['coffee:build', 'concat:build', 'uglify:build', 'copy:rails']);
+  // grunt.registerTask('build', ['coffee:build', 'concat:build', 'uglify:build', 'copy:rails']);
+  grunt.registerTask('build', ['coffee:build', 'execute:standalone', 'copy:rails']);
 
   // Default task.
   grunt.registerTask('default', ['build']);

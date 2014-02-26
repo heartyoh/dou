@@ -1,6 +1,6 @@
 "use strict";
 
-define(['build/js/lifecycle', 'build/js/compose'], function (lifecycle, compose) {
+define(['lifecycle', 'compose'], function (lifecycle, compose) {
 
   describe('lifecycle', function () {
 

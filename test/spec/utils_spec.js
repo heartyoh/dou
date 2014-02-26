@@ -1,6 +1,6 @@
 "use strict";
 
-define(['build/js/utils'], function (utils) {
+define(['utils'], function (utils) {
 
   describe('(Core) utils', function () {
 

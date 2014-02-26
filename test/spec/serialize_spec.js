@@ -1,6 +1,6 @@
 "use strict";
 
-define(['build/js/serialize', 'build/js/compose'], function (serialize, compose) {
+define(['serialize', 'compose'], function (serialize, compose) {
 
   describe('serialize', function () {
 

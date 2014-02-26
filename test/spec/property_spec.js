@@ -1,6 +1,6 @@
 "use strict";
 
-define(['build/js/property', 'build/js/compose'], function (property, compose) {
+define(['property', 'compose'], function (property, compose) {
 
   describe('property mixin', function () {
 

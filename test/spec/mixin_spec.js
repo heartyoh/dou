@@ -1,6 +1,6 @@
 "use strict";
 
-define(['build/js/utils', 'build/js/compose'], function (utils, compose) {
+define(['utils', 'compose'], function (utils, compose) {
 
   describe('(Core) mixin', function () {
 

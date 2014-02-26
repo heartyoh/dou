@@ -1,6 +1,6 @@
 "use strict";
 
-define(['build/js/dou', 'build/js/serialize', 'build/js/lifecycle'], function (dou, serialize, lifecycle) {
+define(['dou', 'serialize', 'lifecycle'], function (dou, serialize, lifecycle) {
 
   describe('component', function () {
 

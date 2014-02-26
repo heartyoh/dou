@@ -15,7 +15,7 @@ module.exports = function(config) {
       'node_modules/karma-requirejs/lib/adapter.js',
 
       // loaded with require
-      {pattern: 'src/*.coffee', included: false},
+      {pattern: 'src/**/*.coffee', included: false},
 
       {pattern: 'test/spec/**/*_spec.js', included: false},
 
