@@ -16,7 +16,7 @@ var rootPath           = path.join(__dirname, '..', '..'),
 var douSource = builder({
   docRoot: rootPath,
   path: '.'
-}).include('build/js/index').toSource();
+}).include('build/js/dou').toSource();
 
 var amdShim = fs.readFileSync(shimPath, 'utf8');
 var banner = fs.readFileSync(bannerPath, 'utf8').split(versionPlaceholder).join(version);

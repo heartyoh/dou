@@ -65,7 +65,8 @@
         base.mixingIn.pop();
         base.mixedIn.push(mixin);
       }
-      return setPropertyWritability(base, true);
+      setPropertyWritability(base, true);
+      return base;
     };
     return {
       mixin: mixin,
