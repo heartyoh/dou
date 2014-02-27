@@ -73,6 +73,46 @@ define(['dou'], function (dou) {
         expect(inst2.yyy()).to.equal('zzz');
       });
 
+      it('should define constructor method for the class', function () {
+        var Clazz = dou.define({}, function(a) {
+          this.a = a;
+        });
+
+        var inst = new Clazz('A');
+
+        expect(inst.a).to.equal('A');
+      });
+
+      it('should define prototype for the class', function () {
+        var Clazz = dou.define({}, function(a) {
+          this.a = a;
+        }, {
+          fa : function() {
+            return this.a;
+          }
+        });
+
+        var inst = new Clazz('A');
+
+        expect(inst.fa()).to.equal('A');
+      });
+
+      it('should define class members(same as prototype) for the class', function () {
+        var Clazz = dou.define({
+          members: {
+            fa : function() {
+              return this.a;
+            }
+          }
+        }, function(a) {
+          this.a = a;
+        });
+
+        var inst = new Clazz('A');
+
+        expect(inst.fa()).to.equal('A');
+      });
+
     });
 
     describe('mixin', function() {

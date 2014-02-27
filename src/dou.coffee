@@ -15,11 +15,21 @@ define [
     
     "use strict"
 
-    define = (options) ->
+    define = (options, constructor, prototype) ->
+        constructor || (constructor = ->)
+
         if options.extends
             class Component extends options.extends
+                constructor: constructor
         else
             class Component
+                constructor: constructor
+
+        if options.members
+            (Component.prototype[name] = value) for own name, value of options.members
+
+        if prototype
+            (Component.prototype[name] = value) for own name, value of prototype
 
         if options.mixins
             compose.mixin Component.prototype, options.mixins

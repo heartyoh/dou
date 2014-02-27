@@ -1,4 +1,4 @@
-/*! Dou v0.0.8 | (c) Hatio, Lab. | MIT License */
+/*! Dou v0.0.9 | (c) Hatio, Lab. | MIT License */
 (function(context) {
   var factories = {}, loaded = {};
   var isArray = Array.isArray || function(obj) {
@@ -864,22 +864,46 @@
     ], function (compose, advice, lifecycle, property, serialize, event) {
         'use strict';
         var define, mixin;
-        define = function (options) {
-            var Component;
+        define = function (options, constructor, prototype) {
+            var Component, name, value, _ref;
+            constructor || (constructor = function () {
+            });
             if (options['extends']) {
                 Component = function (_super) {
+                    var _class;
                     __extends(Component, _super);
                     function Component() {
-                        return Component.__super__.constructor.apply(this, arguments);
+                        return _class.apply(this, arguments);
                     }
+                    _class = constructor;
                     return Component;
                 }(options['extends']);
             } else {
                 Component = function () {
+                    var _class;
                     function Component() {
+                        return _class.apply(this, arguments);
                     }
+                    _class = constructor;
                     return Component;
                 }();
+            }
+            if (options.members) {
+                _ref = options.members;
+                for (name in _ref) {
+                    if (!__hasProp.call(_ref, name))
+                        continue;
+                    value = _ref[name];
+                    Component.prototype[name] = value;
+                }
+            }
+            if (prototype) {
+                for (name in prototype) {
+                    if (!__hasProp.call(prototype, name))
+                        continue;
+                    value = prototype[name];
+                    Component.prototype[name] = value;
+                }
             }
             if (options.mixins) {
                 compose.mixin(Component.prototype, options.mixins);
