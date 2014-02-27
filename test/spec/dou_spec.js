@@ -17,9 +17,6 @@ define(['dou'], function (dou) {
 
         expect(inst.f()).to.equal('f');
       });
-    });
-
-    describe('mixin', function() {
 
       it('should mixin a function set to the new class', function () {
         var Clazz = dou.define({
@@ -48,9 +45,6 @@ define(['dou'], function (dou) {
         expect(inst.get('foo')).to.equal('bar');
         expect(inst.trigger).not.to.equal(undefined);
       });
-    });
-
-    describe('extend', function() {
 
       it('should extend class with extend property', function () {
         function Xyz() {
@@ -77,6 +71,31 @@ define(['dou'], function (dou) {
 
         expect(inst.yyy()).to.equal('yyy');
         expect(inst2.yyy()).to.equal('zzz');
+      });
+
+    });
+
+    describe('mixin', function() {
+      function Target() {
+      }
+      Target.prototype = {
+        tf : function() { return 'tf'; }
+      }
+
+      it('should add functions defined in mixin to the target class', function() {
+        dou.mixin(Target, dou.with.event);
+
+        var t1 = new Target();
+
+        var result;
+
+        t1.on('foo', function(e) {
+          result = e;
+        });
+
+        t1.trigger('foo', 'bar');
+
+        result.should.equal('bar');
       });
     });
   });

@@ -29,8 +29,12 @@ define [
 
         Component
 
+    mixin = (target, withs) ->
+        compose.mixin (if typeof target is 'function' then target.prototype else target), withs
+
     {
         define: define
+        mixin: mixin
         with:
             advice: advice.withAdvice
             property: property

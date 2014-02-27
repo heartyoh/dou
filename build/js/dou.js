@@ -4,7 +4,7 @@
 
   define(['./compose', './advice', './lifecycle', './property', './serialize', './event'], function(compose, advice, lifecycle, property, serialize, event) {
     "use strict";
-    var define;
+    var define, mixin;
     define = function(options) {
       var Component;
       if (options["extends"]) {
@@ -34,8 +34,12 @@
       }
       return Component;
     };
+    mixin = function(target, withs) {
+      return compose.mixin((typeof target === 'function' ? target.prototype : target), withs);
+    };
     return {
       define: define,
+      mixin: mixin,
       "with": {
         advice: advice.withAdvice,
         property: property,

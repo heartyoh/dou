@@ -1,6 +1,6 @@
 {
   "name": "dou",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Light-weight javascript module framework",
   "readmeFilename": "README.md",
   "main": "src/dou-node.js",
