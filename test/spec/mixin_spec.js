@@ -76,6 +76,15 @@ define(['utils', 'compose'], function (utils, compose) {
       expect(base.mixingIn.length).to.equal(0);
     });
 
+    it('should return base', function() {
+      var base = {a: 0};
+      var mixin = function() {
+        this.b = 1;
+      };
+
+      expect(compose.mixin(base, [mixin])).to.equal(base);
+    });
+
     it('should throw exception if 2 or more mixins have dependencies on each other cyclicly', function() {
       var base = {
         a: 0

@@ -62,6 +62,7 @@ define [
             base.mixedIn.push mixin
 
         setPropertyWritability base, true
+        base
 
     {
         mixin: mixin
