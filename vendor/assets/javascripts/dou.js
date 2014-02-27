@@ -1,4 +1,4 @@
-/*! Dou v0.0.7 | (c) Hatio, Lab. | MIT License */
+/*! Dou v0.0.8 | (c) Hatio, Lab. | MIT License */
 (function(context) {
   var factories = {}, loaded = {};
   var isArray = Array.isArray || function(obj) {
@@ -722,52 +722,55 @@
         './event'
     ], function (utils, compose, event) {
         'use strict';
+        var get, set;
+        set = function (key, val) {
+            var after, attrs, before, _ref, _ref1;
+            if (!key) {
+                return this;
+            }
+            if (arguments.length > 1 && typeof arguments[0] === 'string') {
+                attrs = {};
+                attrs[key] = val;
+                return this.set(attrs);
+            }
+            this.attrs || (this.attrs = {});
+            attrs = key;
+            after = {};
+            before = {};
+            _ref = this.attrs;
+            for (key in _ref) {
+                if (!__hasProp.call(_ref, key))
+                    continue;
+                val = _ref[key];
+                before[key] = val;
+            }
+            utils.push(this.attrs, attrs);
+            _ref1 = this.attrs;
+            for (key in _ref1) {
+                if (!__hasProp.call(_ref1, key))
+                    continue;
+                val = _ref1[key];
+                if (val !== before[key]) {
+                    after[key] = val;
+                } else {
+                    delete before[key];
+                }
+            }
+            if (Object.keys(after).length !== 0) {
+                this.trigger('change', {
+                    before: before,
+                    after: after
+                }, true);
+            }
+            return this;
+        };
+        get = function (attr) {
+            return this.attrs && this.attrs[attr];
+        };
         return function () {
             compose.mixin(this, event.withEvent);
-            this.set = function (key, val) {
-                var after, attrs, before, _ref, _ref1;
-                if (!key) {
-                    return this;
-                }
-                if (arguments.length > 1 && typeof arguments[0] === 'string') {
-                    attrs = {};
-                    attrs[key] = val;
-                    return this.set(attrs);
-                }
-                this.attrs || (this.attrs = {});
-                attrs = key;
-                after = {};
-                before = {};
-                _ref = this.attrs;
-                for (key in _ref) {
-                    if (!__hasProp.call(_ref, key))
-                        continue;
-                    val = _ref[key];
-                    before[key] = val;
-                }
-                utils.push(this.attrs, attrs);
-                _ref1 = this.attrs;
-                for (key in _ref1) {
-                    if (!__hasProp.call(_ref1, key))
-                        continue;
-                    val = _ref1[key];
-                    if (val !== before[key]) {
-                        after[key] = val;
-                    } else {
-                        delete before[key];
-                    }
-                }
-                if (Object.keys(after).length !== 0) {
-                    this.trigger('change', {
-                        before: before,
-                        after: after
-                    }, true);
-                }
-                return this;
-            };
-            return this.get = function (attr) {
-                return this.attrs && this.attrs[attr];
-            };
+            this.set = set;
+            return this.get = get;
         };
     });
 }.call(this));
@@ -778,32 +781,35 @@
         './property'
     ], function (compose, withProperty) {
         'use strict';
-        return function () {
-            compose.mixin(this, withProperty);
-            this.initialize = function (attrs) {
-                var cloned, key, val, _ref;
-                attrs || (attrs = {});
-                cloned = {};
-                for (key in attrs) {
-                    if (!__hasProp.call(attrs, key))
-                        continue;
-                    val = attrs[key];
+        var despose, initialize;
+        initialize = function (attrs) {
+            var cloned, key, val, _ref;
+            attrs || (attrs = {});
+            cloned = {};
+            for (key in attrs) {
+                if (!__hasProp.call(attrs, key))
+                    continue;
+                val = attrs[key];
+                cloned[key] = val;
+            }
+            _ref = this.defaults;
+            for (key in _ref) {
+                if (!__hasProp.call(_ref, key))
+                    continue;
+                val = _ref[key];
+                if (!cloned.hasOwnProperty(key)) {
                     cloned[key] = val;
                 }
-                _ref = this.defaults;
-                for (key in _ref) {
-                    if (!__hasProp.call(_ref, key))
-                        continue;
-                    val = _ref[key];
-                    if (!cloned.hasOwnProperty(key)) {
-                        cloned[key] = val;
-                    }
-                }
-                this.set(cloned);
-                return this;
-            };
-            return this.despose = function () {
-            };
+            }
+            this.set(cloned);
+            return this;
+        };
+        despose = function () {
+        };
+        return function () {
+            compose.mixin(this, withProperty);
+            this.initialize = initialize;
+            return this.despose = despose;
         };
     });
 }.call(this));
@@ -813,17 +819,24 @@
         './property'
     ], function (compose, withProperty) {
         'use strict';
+        var deserialize, serialize;
+        serialize = function () {
+            return [
+                'type: ' + this.name,
+                'id: ' + this.id,
+                'props: ' + JSON.stringify(this.attrs)
+            ].join(',');
+        };
+        deserialize = function () {
+        };
         return function () {
             compose.mixin(this, withProperty);
-            this.serialize = function () {
-                return [
-                    'type: ' + this.name,
-                    'id: ' + this.id,
-                    'props: ' + JSON.stringify(this.attrs)
-                ].join(',');
-            };
-            return this.deserialize = function () {
-            };
+            if (!this.serialize) {
+                this.serialize = serialize;
+            }
+            if (!this.deserialize) {
+                return this.deserialize = deserialize;
+            }
         };
     });
 }.call(this));
