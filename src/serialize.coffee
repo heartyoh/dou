@@ -11,6 +11,15 @@ define [
     
     "use strict"
 
+    serialize = ->
+        [
+            "type: #{this.name}"
+            "id: #{this.id}"
+            "props: #{JSON.stringify(this.attrs)}"   
+        ].join(',')
+
+    deserialize = ->
+
     # serialize 되는 객체는
     # 타입과 id를 가지면 좋겠다.
     # 타입 정보는 .. 
@@ -19,11 +28,5 @@ define [
     ->
         compose.mixin this, withProperty
         
-        this.serialize = ->
-            [
-                "type: #{this.name}"
-                "id: #{this.id}"
-                "props: #{JSON.stringify(this.attrs)}"   
-            ].join(',')
-
-        this.deserialize = ->
+        this.serialize = serialize if !this.serialize
+        this.deserialize = deserialize if !this.deserialize
