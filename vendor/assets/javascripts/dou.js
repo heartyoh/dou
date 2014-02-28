@@ -269,7 +269,7 @@
                 }
                 newInstance = new obj.constructor();
                 for (key in obj) {
-                    newInstance[key] = clone(obj[key]);
+                    newInstance[key] = this.clone(obj[key]);
                 }
                 return newInstance;
             }

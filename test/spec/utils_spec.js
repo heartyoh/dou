@@ -180,5 +180,20 @@ define(['utils'], function (utils) {
         expect(sum).to.equal(1);
       });
     });
+
+    describe('clone()', function () {
+      it('should not copy reference of object', function () {
+        var origin = {
+          a: 'a',
+          b: 'b'
+        };
+
+        var cloned = utils.clone(origin);
+
+        origin.a = 'A';
+
+        expect(cloned.a).to.equal('a');
+      });
+    });
   });
 });

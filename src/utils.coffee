@@ -216,7 +216,7 @@ define [], ->
           newInstance = new obj.constructor()
 
           for key of obj
-            newInstance[key] = clone obj[key]
+            newInstance[key] = this.clone obj[key]
 
           return newInstance
 
