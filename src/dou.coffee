@@ -11,7 +11,8 @@ define [
     './property'
     './serialize'
     './event'
-], (compose, advice, lifecycle, property, serialize, event) ->
+    './utils'
+], (compose, advice, lifecycle, property, serialize, event, utils) ->
     
     "use strict"
 
@@ -25,15 +26,18 @@ define [
             class Component
                 constructor: constructor
 
+        # for class members ( same as prototype )
         if options.members
             (Component.prototype[name] = value) for own name, value of options.members
 
         if prototype
             (Component.prototype[name] = value) for own name, value of prototype
 
+        # for mixins
         if options.mixins
             compose.mixin Component.prototype, options.mixins
 
+        # I want to change class name (function name), but not possible
         if options.name
             Component.name = options.name
 
@@ -51,4 +55,5 @@ define [
             lifecycle: lifecycle
             event: event.withEvent
             serialize: serialize
+        util: utils
     }
