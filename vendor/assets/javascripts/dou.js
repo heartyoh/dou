@@ -945,7 +945,8 @@
             return Component;
         };
         mixin = function (target, withs) {
-            return compose.mixin(typeof target === 'function' ? target.prototype : target, withs);
+            compose.mixin(typeof target === 'function' ? target.prototype : target, withs);
+            return target;
         };
         return {
             define: define,
