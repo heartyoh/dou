@@ -45,6 +45,7 @@ define [
 
     mixin = (target, withs) ->
         compose.mixin (if typeof target is 'function' then target.prototype else target), withs
+        target
 
     {
         define: define
