@@ -150,7 +150,7 @@ inst.off('test');
 ```js
 
 var Clazz = dou.define({
-	mixins : [dou.with.property] /* also has event mixin */
+	mixins : [dou.with.property] /* also has dou.with.event mixin */
 });
 
 var inst = new Clazz();
@@ -175,7 +175,7 @@ var val = inst.get('attr1'); // val should be 'value1'
 
 ```js
 var Clazz = dou.define({
-	mixins : [dou.with.lifecycle], /* alse has property & event mixin */
+	mixins : [dou.with.lifecycle], /* alse has dou.with.property & dou.with.event mixin */
 	members : {
 		defaults : {
 			attr1: 'A',
