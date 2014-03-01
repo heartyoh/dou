@@ -23,6 +23,7 @@ http://flightjs.github.io/)
 var dou = require('dou');
 
 var Super = dou.define({
+	/* members are class members (methods or variable), not instance members */
 	members: {
 		methodA: function() {...},
 		methodB: function() {...}
@@ -76,10 +77,12 @@ var inst = new Clazz(arg);
 ```js
 
 function mixin1() {
+	/* 'this' is prototype of Target Class. in this case Clazz.prototype */
 	this.methodD = function() { return 'foo'; };
 }
 
 function mixin2() {
+	/* 'this' is prototype of Target Class. in this case Clazz.prototype */
 	this.methodE = function() { return 'bar'; };
 }
 
@@ -100,17 +103,29 @@ inst.methodE();
 ```js
 
 function mixin() {
-	this.before('methodA', function(arg) {...});
-	this.after('methodB', function(arg) {...});
-	this.around('methodC', function(origin, arg) {
+	this.before('methodA', function(arg) {
+		/* before logic */
 		...
+	});
+	this.after('methodB', function(arg) {
+		/* after logic */
+		...
+	});
+	this.around('methodC', function(origin, arg) {
+		/* before logic */
+		...
+		
+		/* origin logic */
 		origin(arg);
+
+		/* after logic */
 		...
 	});
 }
 
 var Clazz = dou.define({
 	extend : Super,
+	/* dou.with.advice should be mixed in. */
 	mixins : [dou.with.advice, mixin]
 });
 
@@ -150,7 +165,8 @@ inst.off('test');
 ```js
 
 var Clazz = dou.define({
-	mixins : [dou.with.property] /* also has dou.with.event mixin */
+	/* dou.with.property includes dou.with.event mixin */
+	mixins : [dou.with.property]
 });
 
 var inst = new Clazz();
@@ -175,7 +191,8 @@ var val = inst.get('attr1'); // val should be 'value1'
 
 ```js
 var Clazz = dou.define({
-	mixins : [dou.with.lifecycle], /* alse has dou.with.property & dou.with.event mixin */
+	/* dou.with.lifecycle includes 2 mixins (dou.with.property and dou.with.event) */
+	mixins : [dou.with.lifecycle],
 	members : {
 		defaults : {
 			attr1: 'A',
