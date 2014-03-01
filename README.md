@@ -100,11 +100,11 @@ inst.methodE();
 ```js
 
 function mixin() {
-	this.methodA = this.before(this.methodA, function(arg) {...});
-	this.methodB = this.after(this.methodB, function(arg) {...});
-	this.methodC = this.around(this.methodA, function(orig, arg) {
+	this.before('methodA', function(arg) {...});
+	this.after('methodB', function(arg) {...});
+	this.around('methodC', function(origin, arg) {
 		...
-		orig(arg);
+		origin(arg);
 		...
 	});
 }
