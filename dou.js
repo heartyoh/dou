@@ -1,4 +1,4 @@
-/*! Dou v0.0.9 | (c) Hatio, Lab. | MIT License */
+/*! Dou v0.0.10 | (c) Hatio, Lab. | MIT License */
 (function(context) {
   var factories = {}, loaded = {};
   var isArray = Array.isArray || function(obj) {
