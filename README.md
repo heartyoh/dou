@@ -15,6 +15,61 @@ http://flightjs.github.io/)
  * Property
  * Life Cycle
  
+## Getting Started
+It supports packages for nodejs, bower & rails.
+
+As a gem for rails provides:
+
+  * dou-rails
+
+As a package for nodejs provides:
+
+  * dou
+
+As a package for bower provides:
+
+  * dou
+
+### Install the nodejs module with:
+`npm install dou --save`
+
+### Install the bower module with:
+`bower install dou --save`
+
+### Configure for requirejs as follow:
+
+```js
+requirejs.config({
+	...
+	paths: {
+		'dou'           : 'bower_components/dou/dou'
+	},
+	shim: {
+		dou: {
+			exports: 'dou'
+		}
+	},
+	...
+});
+```
+
+### Install the rails module with Gemfile
+
+```ruby
+gem "dou-rails"
+```
+
+And run `bundle install`. The rest of the installation depends on
+whether the asset pipeline is being used.
+
+### Rails 3.1 or greater (with asset pipeline *enabled*)
+
+The dou-rails files will be added to the asset pipeline and available for you to use. If they're not already in `app/assets/javascripts/application.js` by default, add these lines:
+
+```js
+//= require dou-min
+```
+
 ## Usage
 
 ### Define Class
