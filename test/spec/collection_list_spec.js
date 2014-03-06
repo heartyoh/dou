@@ -91,6 +91,27 @@ define(['dou', 'collection'], function (dou, collection) {
       });
     });
 
+    describe('clear', function () {
+      it('should remove all items in the collection', function() {
+        target.append(1).append(2).append(3).append(4);
+        expect(target.size()).to.equal(4);
+        target.clear();
+        expect(target.size()).to.equal(0);
+      });
+
+      it('should execute required function by the specified context', function() {
+        var context = {
+          sum : 0
+        };
+
+        target.append(1).append(2).append(3).append(4).forEach(function(item) {
+          this.sum += item;
+        }, context);
+
+        expect(context.sum).to.equal(10);
+      });
+    });
+
   });
 
 });

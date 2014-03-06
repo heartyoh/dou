@@ -45,6 +45,9 @@ define [
         size: ->
             (this.__collection__ || []).length
 
+        clear: ->
+            this.__collection__ = []
+
 
     stack =
         push: (item) ->
