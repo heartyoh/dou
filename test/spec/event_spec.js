@@ -39,6 +39,28 @@ define(['utils', 'event'], function(utils, event) {
 
             expect(person.running).to.equal(true);
           });
+        });
+
+        describe('listenTo all', function () {
+          it('should receive all kind of event from the event source', function () {
+
+            var Animal = function (name) {
+                this.name = name;
+            };
+                
+            utils.merge(Animal.prototype, event);
+
+            var dog = new Animal('wang');
+            var name;
+
+            dog.on('all', function(e, dogname) {
+                name = dogname;
+            });
+
+            dog.trigger('buck', dog.name);
+
+            expect(name).to.equal(dog.name);
+          });
         });      
     });
 });

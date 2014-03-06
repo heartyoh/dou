@@ -28,7 +28,8 @@ require(['require', 'chai', 'mocha'], function(require, chai){
     'lifecycle',
     'mixin',
     'serialize',
-    'event'
+    'event',
+    'collection_list'
   ].map(function(t) {return 'spec/' + t + '_spec.js'})
   , function(require) {
     mocha.run();

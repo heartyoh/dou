@@ -12,7 +12,8 @@ define [
     './serialize'
     './event'
     './utils'
-], (compose, advice, lifecycle, property, serialize, event, utils) ->
+    './collection'
+], (compose, advice, lifecycle, property, serialize, event, utils, collection) ->
     
     "use strict"
 
@@ -56,5 +57,6 @@ define [
             lifecycle: lifecycle
             event: event.withEvent
             serialize: serialize
+            collection: collection
         util: utils
     }
