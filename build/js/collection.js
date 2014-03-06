@@ -3,7 +3,7 @@
 
   define([], function() {
     "use strict";
-    var collection, list, stack;
+    var List, Stack, collection, list, stack;
     list = {
       insertAt: function(index, item) {
         if (!this.__collection__) {
@@ -69,7 +69,13 @@
         throw new Error('Not Implemented Yet');
       }
     };
+    List = function() {};
+    List.prototype = list;
+    Stack = function() {};
+    Stack.prototype = stack;
     collection = {
+      List: List,
+      Stack: Stack,
       withList: function() {
         var k, v, _results;
         _results = [];

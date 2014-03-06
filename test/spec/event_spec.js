@@ -87,9 +87,7 @@ define(['utils', 'event'], function(utils, event) {
           bucked+=2;
         });
 
-        dog.on('all', function() {
-          hutch.delegate.apply(hutch, arguments);            
-        });
+        dog.delegate_on(hutch);
 
         dog.trigger('buck');
         dog.trigger('huck');

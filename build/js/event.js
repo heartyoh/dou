@@ -1,12 +1,11 @@
 (function() {
-  define(['./utils'], function(utils) {
+  define(['./utils', './collection'], function(utils, collection) {
     "use strict";
-    var Event, eventSplitter, eventsApi, implementation, listenMethods, method, slice, triggerEvents;
-    slice = [].slice;
+    var Event, delegateEvents, eventSplitter, eventsApi, implementation, listenMethods, method, triggerEvents;
     Event = {
       withEvent: function() {
         var method, _i, _len, _ref, _results;
-        _ref = ['on', 'off', 'once', 'trigger', 'delegate'];
+        _ref = ['on', 'off', 'once', 'delegate_on', 'delegate_off', 'trigger'];
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           method = _ref[_i];
@@ -70,8 +69,23 @@
         }
         return this;
       },
+      delegate_on: function(delegator) {
+        this.delegators || (this.delegators = new collection.List());
+        this.delegators.append(delegator);
+        return this;
+      },
+      delegate_off: function(delegator) {
+        if (!this.delegators) {
+          return this;
+        }
+        this.delegators.remove(delegator);
+        return this;
+      },
       delegate: function() {
         var allEvents, event, events;
+        if (this.delegators && this.delegators.size() > 0) {
+          delegateEvents(this.delegators, arguments);
+        }
         if (!this._events) {
           return this;
         }
@@ -88,19 +102,22 @@
       },
       trigger: function(name) {
         var allEvents, args, events;
+        args = [].slice.call(arguments, 1);
+        args.push({
+          target: this,
+          name: name
+        });
+        if (this.delegators && this.delegators.size() > 0) {
+          delegateEvents(this.delegators, args);
+        }
         if (!this._events) {
           return this;
         }
-        args = slice.call(arguments, 1);
         if (!eventsApi(this, 'trigger', name, args)) {
           return this;
         }
         events = this._events[name];
         allEvents = this._events.all;
-        args.push({
-          target: this,
-          name: name
-        });
         if (events) {
           triggerEvents(events, args);
         }
@@ -163,6 +180,11 @@
         _results.push(ev.callback.apply(ev.ctx, args));
       }
       return _results;
+    };
+    delegateEvents = function(delegators, args) {
+      return delegators.forEach(function(delegator) {
+        return Event.delegate.apply(delegator, args);
+      });
     };
     listenMethods = {
       listenTo: 'on',

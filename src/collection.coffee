@@ -48,7 +48,6 @@ define [
         clear: ->
             this.__collection__ = []
 
-
     stack =
         push: (item) ->
             throw new Error('Not Implemented Yet')
@@ -56,7 +55,15 @@ define [
         pop: ->
             throw new Error('Not Implemented Yet')
 
+    List = ->
+    List.prototype = list
+
+    Stack = ->
+    Stack.prototype = stack
+
     collection =
+        List: List
+        Stack: Stack
         withList: ->
             (this[k] = v) for own k, v of list
 

@@ -6,15 +6,14 @@
 
 define [
     './utils'
-], (utils) ->
+    './collection'
+], (utils, collection) ->
 
     "use strict"
 
-    slice = [].slice
-
     Event =
         withEvent: ->
-            (this[method] = Event[method]) for method in ['on', 'off', 'once', 'trigger', 'delegate']
+            (this[method] = Event[method]) for method in ['on', 'off', 'once', 'delegate_on', 'delegate_off', 'trigger']
 
         on: (name, callback, context) ->
             return this if (!eventsApi(this, 'on', name, [callback, context]) || !callback)
@@ -67,7 +66,21 @@ define [
 
             this
 
+        delegate_on: (delegator) ->
+            this.delegators || (this.delegators = new collection.List());
+            this.delegators.append delegator
+
+            this
+
+        delegate_off: (delegator) ->
+            return this if not this.delegators
+            this.delegators.remove delegator
+
+            this
+
         delegate: ->
+            delegateEvents(this.delegators, arguments) if this.delegators and this.delegators.size() > 0
+
             return this if (!this._events)
 
             event = arguments[arguments.length - 1]
@@ -85,20 +98,22 @@ define [
         # (unless you're listening on `"all"`, which will cause your callback to
         # receive the true name of the event as the first argument).
         trigger: (name) ->
-            return this if (!this._events)
+            args = [].slice.call(arguments, 1)
 
-            args = slice.call(arguments, 1)
+            args.push({
+                target: this,
+                name: name
+            });
+
+            delegateEvents(this.delegators, args) if this.delegators and this.delegators.size() > 0
+            
+            return this if not this._events
 
             return this if (!eventsApi(this, 'trigger', name, args))
 
             events = this._events[name]
             allEvents = this._events.all
 
-            args.push({
-                target: this,
-                name: name
-            });
-            
             triggerEvents(events, args) if (events)
             triggerEvents(allEvents, args) if (allEvents)
             
@@ -149,6 +164,10 @@ define [
 
     triggerEvents = (events, args) ->
         ev.callback.apply(ev.ctx, args) for ev in events
+
+    delegateEvents = (delegators, args) ->
+        delegators.forEach (delegator) ->
+            Event.delegate.apply(delegator, args)
 
     listenMethods =
         listenTo: 'on'
