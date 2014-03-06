@@ -78,15 +78,22 @@ define(['utils', 'event'], function(utils, event) {
 
         var hutch = new Hutch();
 
+        var Home = function() {}
+
+        utils.merge(Home.prototype, event);
+
+        var home = new Home();
+
         var bucked = 0;
-        hutch.on('buck', function() {
+        home.on('buck', function() {
           bucked++;
         });
 
-        hutch.on('huck', function() {
+        home.on('huck', function() {
           bucked+=2;
         });
 
+        hutch.delegate_on(home)
         dog.delegate_on(hutch);
 
         dog.trigger('buck');
