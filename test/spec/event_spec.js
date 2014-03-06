@@ -1,68 +1,103 @@
 define(['utils', 'event'], function(utils, event) {
-    "use strict";
+  "use strict";
 
-    describe('(Core) Event', function() { 
-        describe('#listenTo() #trigger()', function () {
-          it('should receive listening event from the event', function () {
+  describe('(Core) Event', function() { 
+    describe('#listenTo() #trigger()', function () {
+      it('should receive listening event from the event', function () {
 
-	        var Animal = function (name) {
-	            this.name = name;
-	        };
-	            
-	        Animal.prototype = {
-	            getName : function () {
-	                return this.name;
-	            }
-	        }
+      var Animal = function (name) {
+          this.name = name;
+      };
+          
+      Animal.prototype = {
+          getName : function () {
+              return this.name;
+          }
+      }
 
-	        utils.merge(Animal.prototype, event);
+      utils.merge(Animal.prototype, event);
+    
+        var dog = new Animal('wang');
+        var person = utils.merge({
+            run: function (e) {
+                this.trigger('run');
+                this.running = true;
+            }
+        }, event);
+
+        // event subscribing
+        // dog.on('buck', person.run, person);
+        person.listenTo(dog, 'buck', person.run);
+
+        event.listenTo(dog, 'buck', function(e) {
+            // console.log('I have got an event');
+            // console.log(this, e);
+        });
         
-            var dog = new Animal('wang');
-            var person = utils.merge({
-                run: function (e) {
-                    this.trigger('run');
-                    this.running = true;
-                }
-            }, event);
+        // event firing
+        dog.trigger('buck');
 
-			// event subscribing
-            // dog.on('buck', person.run, person);
-            person.listenTo(dog, 'buck', person.run);
+        expect(person.running).to.equal(true);
+      });
+    });
 
-            event.listenTo(dog, 'buck', function(e) {
-                // console.log('I have got an event');
-                // console.log(this, e);
-            });
+    describe('listenTo all', function () {
+      it('should receive all kind of event from the event source', function () {
+
+        var Animal = function (name) {
+            this.name = name;
+        };
             
-            // event firing
-            dog.trigger('buck');
+        utils.merge(Animal.prototype, event);
 
-            expect(person.running).to.equal(true);
-          });
+        var dog = new Animal('wang');
+        var name;
+
+        dog.on('all', function(dogname) {
+            name = dogname;
         });
 
-        describe('listenTo all', function () {
-          it('should receive all kind of event from the event source', function () {
+        dog.trigger('buck', dog.name);
 
-            var Animal = function (name) {
-                this.name = name;
-            };
-                
-            utils.merge(Animal.prototype, event);
-
-            var dog = new Animal('wang');
-            var name;
-
-            dog.on('all', function(dogname) {
-                name = dogname;
-            });
-
-            dog.trigger('buck', dog.name);
-
-            expect(name).to.equal(dog.name);
-          });
-        });      
+        expect(name).to.equal(dog.name);
+      });
     });
+
+    describe('delegate', function () {
+      it('should not change event object from the event source', function () {
+
+        var Animal = function () {}
+            
+        utils.merge(Animal.prototype, event);
+
+        var dog = new Animal();
+
+        var Hutch = function() {}
+
+        utils.merge(Hutch.prototype, event);
+
+        var hutch = new Hutch();
+
+        var bucked = 0;
+        hutch.on('buck', function() {
+          bucked++;
+        });
+
+        hutch.on('huck', function() {
+          bucked+=2;
+        });
+
+        dog.on('all', function() {
+          hutch.delegate.apply(hutch, arguments);            
+        });
+
+        dog.trigger('buck');
+        dog.trigger('huck');
+
+        expect(bucked).to.equal(3);
+      });
+    });      
+  });
 });
 
 

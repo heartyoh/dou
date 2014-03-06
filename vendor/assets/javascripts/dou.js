@@ -646,6 +646,22 @@
                 }
                 return this;
             },
+            delegate: function () {
+                var allEvents, event, events;
+                if (!this._events) {
+                    return this;
+                }
+                event = arguments[arguments.length - 1];
+                events = this._events[event.name];
+                allEvents = this._events.all;
+                if (events) {
+                    triggerEvents(events, arguments);
+                }
+                if (allEvents) {
+                    triggerEvents(allEvents, arguments);
+                }
+                return this;
+            },
             trigger: function (name) {
                 var allEvents, args, events;
                 if (!this._events) {

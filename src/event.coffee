@@ -67,6 +67,19 @@ define [
 
             this
 
+        delegate: ->
+            return this if (!this._events)
+
+            event = arguments[arguments.length - 1]
+            
+            events = this._events[event.name]
+            allEvents = this._events.all
+
+            triggerEvents(events, arguments) if (events)
+            triggerEvents(allEvents, arguments) if (allEvents)
+            
+            this
+
         # Trigger one or many events, firing all bound callbacks. Callbacks are
         # passed the same arguments as `trigger` is, apart from the event name
         # (unless you're listening on `"all"`, which will cause your callback to
