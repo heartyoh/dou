@@ -19,7 +19,7 @@ define(['serialize', 'compose'], function (serialize, compose) {
         d: 'd'
       });
 
-      console.log('[' + base.serialize() + ']');
+      console.log('serialize : ' + '[' + base.serialize() + ']');
     });
 
   });

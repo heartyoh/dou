@@ -81,11 +81,12 @@
         }
         events = this._events[name];
         allEvents = this._events.all;
+        args.unshift(this);
         if (events) {
           triggerEvents(events, args);
         }
         if (allEvents) {
-          triggerEvents(allEvents, arguments);
+          triggerEvents(allEvents, args);
         }
         return this;
       },

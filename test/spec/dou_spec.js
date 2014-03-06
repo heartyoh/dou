@@ -129,7 +129,7 @@ define(['dou'], function (dou) {
 
         var result;
 
-        t1.on('foo', function(e) {
+        t1.on('foo', function(target, e) {
           result = e;
         });
 

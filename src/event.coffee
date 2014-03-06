@@ -81,8 +81,10 @@ define [
             events = this._events[name]
             allEvents = this._events.all
 
+            args.unshift(this)
+            
             triggerEvents(events, args) if (events)
-            triggerEvents(allEvents, arguments) if (allEvents)
+            triggerEvents(allEvents, args) if (allEvents)
             
             this
 

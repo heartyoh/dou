@@ -46,7 +46,7 @@ define(['property', 'compose'], function (property, compose) {
         var dog = new Animal('wang');
         
         var ev;
-        dog.on('change', function(e) {
+        dog.on('change', function(target, e) {
           ev = e;
         });
         
@@ -64,7 +64,7 @@ define(['property', 'compose'], function (property, compose) {
 
         var before, after;
 
-        base.on('change', function(e) {
+        base.on('change', function(target, e) {
           before = e.before;
           after = e.after;
         });
