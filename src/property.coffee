@@ -38,10 +38,7 @@ define [
                 delete before[key]
 
         if Object.keys(after).length isnt 0
-            this.trigger 'change',
-                before: before
-                after: after
-            , true
+            this.trigger 'change', this, before, after
 
         return this
 

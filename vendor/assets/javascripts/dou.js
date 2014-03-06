@@ -657,7 +657,10 @@
                 }
                 events = this._events[name];
                 allEvents = this._events.all;
-                args.unshift(this);
+                args.push({
+                    target: this,
+                    name: name
+                });
                 if (events) {
                     triggerEvents(events, args);
                 }
@@ -788,10 +791,7 @@
                 }
             }
             if (Object.keys(after).length !== 0) {
-                this.trigger('change', {
-                    before: before,
-                    after: after
-                }, true);
+                this.trigger('change', this, before, after);
             }
             return this;
         };

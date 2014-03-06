@@ -19,7 +19,7 @@ define(['utils', 'event'], function(utils, event) {
         
             var dog = new Animal('wang');
             var person = utils.merge({
-                run: function (target, e) {
+                run: function (e) {
                     this.trigger('run');
                     this.running = true;
                 }
@@ -53,7 +53,7 @@ define(['utils', 'event'], function(utils, event) {
             var dog = new Animal('wang');
             var name;
 
-            dog.on('all', function(target, dogname) {
+            dog.on('all', function(dogname) {
                 name = dogname;
             });
 

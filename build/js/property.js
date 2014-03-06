@@ -36,10 +36,7 @@
         }
       }
       if (Object.keys(after).length !== 0) {
-        this.trigger('change', {
-          before: before,
-          after: after
-        }, true);
+        this.trigger('change', this, before, after);
       }
       return this;
     };

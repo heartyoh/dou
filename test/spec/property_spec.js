@@ -45,15 +45,17 @@ define(['property', 'compose'], function (property, compose) {
     
         var dog = new Animal('wang');
         
-        var ev;
-        dog.on('change', function(target, e) {
-          ev = e;
+        var _before;
+        var _after;
+        dog.on('change', function(obj, before, after) {
+          _before = before;
+          _after = after;
         });
         
         dog.set('buck', 'puck');
 
-        expect(ev.before.buck).to.equal(undefined);
-        expect(ev.after.buck).to.equal('puck');
+        expect(_before.buck).to.equal(undefined);
+        expect(_after.buck).to.equal('puck');
       });
 
       it('should notify change event with before and after values.', function () {
@@ -64,9 +66,9 @@ define(['property', 'compose'], function (property, compose) {
 
         var before, after;
 
-        base.on('change', function(target, e) {
-          before = e.before;
-          after = e.after;
+        base.on('change', function(target, _before, _after) {
+          before = _before;
+          after = _after;
         });
 
         base.set({

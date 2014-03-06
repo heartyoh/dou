@@ -16,9 +16,9 @@ define(['lifecycle', 'compose'], function (lifecycle, compose) {
 
       var before, after;
 
-      base.on('change', function(target, e) {
-        before = e.before;
-        after = e.after;
+      base.on('change', function(obj, _before, _after) {
+        before = _before;
+        after = _after;
       });
 
       base.initialize({
