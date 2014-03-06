@@ -56,6 +56,9 @@
       },
       size: function() {
         return (this.__collection__ || []).length;
+      },
+      clear: function() {
+        return this.__collection__ = [];
       }
     };
     stack = {
