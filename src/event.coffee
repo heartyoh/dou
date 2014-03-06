@@ -14,7 +14,7 @@ define [
 
     Event =
         withEvent: ->
-            (this[method] = Event[method]) for method in ['on', 'off', 'once', 'trigger']
+            (this[method] = Event[method]) for method in ['on', 'off', 'once', 'trigger', 'delegate']
 
         on: (name, callback, context) ->
             return this if (!eventsApi(this, 'on', name, [callback, context]) || !callback)

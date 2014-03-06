@@ -572,7 +572,8 @@
                     'on',
                     'off',
                     'once',
-                    'trigger'
+                    'trigger',
+                    'delegate'
                 ];
                 _results = [];
                 for (_i = 0, _len = _ref.length; _i < _len; _i++) {

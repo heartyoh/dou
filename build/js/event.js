@@ -6,7 +6,7 @@
     Event = {
       withEvent: function() {
         var method, _i, _len, _ref, _results;
-        _ref = ['on', 'off', 'once', 'trigger'];
+        _ref = ['on', 'off', 'once', 'trigger', 'delegate'];
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           method = _ref[_i];
