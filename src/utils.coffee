@@ -45,6 +45,14 @@ define [], ->
  
             target
 
+        shallow_merge: (extenders...) ->
+            result = {}
+
+            for extender in extenders
+                for own key, val of extender
+                    result[key] = val
+            result
+
         # updates base in place by copying properties of extra to it
         # optionally clobber protected
         # usage:

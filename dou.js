@@ -87,6 +87,21 @@
                 }
                 return target;
             },
+            shallow_merge: function () {
+                var extender, extenders, key, result, val, _i, _len;
+                extenders = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+                result = {};
+                for (_i = 0, _len = extenders.length; _i < _len; _i++) {
+                    extender = extenders[_i];
+                    for (key in extender) {
+                        if (!__hasProp.call(extender, key))
+                            continue;
+                        val = extender[key];
+                        result[key] = val;
+                    }
+                }
+                return result;
+            },
             push: function (base, extra, protect) {
                 var key, val;
                 if (!base || !extra) {
@@ -944,10 +959,18 @@
             return this;
         };
         get = function (attr) {
-            return this.attrs && this.attrs[attr];
+            if (this.attrs) {
+                return this.attrs[attr];
+            } else {
+                return void 0;
+            }
         };
         getAll = function () {
-            return this.attrs && utils.clone(this.attrs);
+            if (this.attrs) {
+                return utils.clone(this.attrs);
+            } else {
+                return {};
+            }
         };
         return function () {
             compose.mixin(this, event.withEvent);

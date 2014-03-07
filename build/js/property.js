@@ -41,10 +41,18 @@
       return this;
     };
     get = function(attr) {
-      return this.attrs && this.attrs[attr];
+      if (this.attrs) {
+        return this.attrs[attr];
+      } else {
+        return void 0;
+      }
     };
     getAll = function() {
-      return this.attrs && utils.clone(this.attrs);
+      if (this.attrs) {
+        return utils.clone(this.attrs);
+      } else {
+        return {};
+      }
     };
     return function() {
       compose.mixin(this, event.withEvent);

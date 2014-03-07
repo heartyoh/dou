@@ -43,10 +43,10 @@ define [
         return this
 
     get = (attr) ->
-        @attrs && @attrs[attr]
+        if @attrs then @attrs[attr] else undefined
 
     getAll = ->
-        @attrs && utils.clone(@attrs)
+        if @attrs then utils.clone(@attrs) else {}
 
     ->
         # plugin dependency : event.withEvent
