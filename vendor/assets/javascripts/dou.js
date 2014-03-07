@@ -904,7 +904,7 @@
         './event'
     ], function (utils, compose, event) {
         'use strict';
-        var get, set;
+        var get, getAll, set;
         set = function (key, val) {
             var after, attrs, before, _ref, _ref1;
             if (!key) {
@@ -946,10 +946,14 @@
         get = function (attr) {
             return this.attrs && this.attrs[attr];
         };
+        getAll = function () {
+            return this.attrs && utils.clone(this.attrs);
+        };
         return function () {
             compose.mixin(this, event.withEvent);
             this.set = set;
-            return this.get = get;
+            this.get = get;
+            return this.getAll = getAll;
         };
     });
 }.call(this));

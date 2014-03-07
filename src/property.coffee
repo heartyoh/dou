@@ -19,35 +19,39 @@ define [
         if arguments.length > 1 && typeof(arguments[0]) is 'string'
             attrs = {}
             attrs[key] = val
-            return this.set attrs
+            return @set attrs
 
-        this.attrs || (this.attrs = {})
+        @attrs || (@attrs = {})
 
         attrs = key
         after = {}
         before = {}
 
-        (before[key] = val) for own key, val of this.attrs
+        (before[key] = val) for own key, val of @attrs
 
-        utils.push this.attrs, attrs
+        utils.push @attrs, attrs
 
-        for own key, val of this.attrs
+        for own key, val of @attrs
             if val isnt before[key]
                 after[key] = val
             else
                 delete before[key]
 
         if Object.keys(after).length isnt 0
-            this.trigger 'change', this, before, after
+            @trigger 'change', this, before, after
 
         return this
 
     get = (attr) ->
-        this.attrs && this.attrs[attr]
+        @attrs && @attrs[attr]
+
+    getAll = ->
+        @attrs && utils.clone(@attrs)
 
     ->
         # plugin dependency : event.withEvent
         compose.mixin this, event.withEvent
 
-        this.set = set
-        this.get = get
+        @set = set
+        @get = get
+        @getAll = getAll

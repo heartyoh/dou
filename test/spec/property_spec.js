@@ -4,14 +4,18 @@ define(['property', 'compose'], function (property, compose) {
 
   describe('(Core) Property', function () {
 
+    var base;
+
+    beforeEach(function() {
+      base = {
+      };
+
+      compose.mixin(base, [property]);
+    });
+
     describe('get/set', function() {
 
       it('should change attributes as a set of new values.', function () {
-        var base = {
-        };
-
-        compose.mixin(base, [property]);
-
         base.set({
           a: 'a',
           b: 'b'
@@ -59,11 +63,6 @@ define(['property', 'compose'], function (property, compose) {
       });
 
       it('should notify change event with before and after values.', function () {
-        var base = {
-        };
-
-        compose.mixin(base, [property]);
-
         var before, after;
 
         base.on('change', function(target, _before, _after) {
@@ -93,6 +92,40 @@ define(['property', 'compose'], function (property, compose) {
         expect(after).not.to.include.keys('b');
         expect(after).to.include.keys('c');
       });
+    });
+
+    describe('getAll', function() {
+      it('should return all attributes by an object.', function () {
+        var attrs = {
+          a: 'a',
+          b: 'b'
+        };
+
+        base.set(attrs);
+
+        var cattrs = base.getAll();
+
+        expect(cattrs).to.deep.equal(attrs);
+      });
+
+      it('should not be able to change attribute of object through a returned attributes object.', function () {
+        var attrs = {
+          a: 'a',
+          b: 'b'
+        };
+
+        base.set(attrs);
+
+        var cattrs = base.getAll();
+
+        cattrs.a = 'A'
+        cattrs.b = 'B'
+
+        var nattrs = base.getAll();
+
+        expect(nattrs).to.deep.equal(attrs);
+      });
+
     });
   });
 });
