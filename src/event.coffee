@@ -18,8 +18,8 @@ define [
         on: (name, callback, context) ->
             return this if (!eventsApi(this, 'on', name, [callback, context]) || !callback)
 
-            this._events || (this._events = {});
-            events = this._events[name] || (this._events[name] = []);
+            this._listeners || (this._listeners = {});
+            events = this._listeners[name] || (this._listeners[name] = []);
             events.push
                 callback: callback
                 context: context
@@ -46,23 +46,23 @@ define [
         # callbacks for the event. If `name` is null, removes all bound
         # callbacks for all events.
         off: (name, callback, context) ->
-            return this if (!this._events || !eventsApi(this, 'off', name, [callback, context]))
+            return this if (!this._listeners || !eventsApi(this, 'off', name, [callback, context]))
 
             if (!name && !callback && !context)
-                this._events = undefined;
+                this._listeners = undefined;
                 return this;
 
-            names = if name then [name] else Object.keys(this._events);
+            names = if name then [name] else Object.keys(this._listeners);
 
             for name, i in names
-                if (events = this._events[name])
-                    this._events[name] = retain = []
+                if (events = this._listeners[name])
+                    this._listeners[name] = retain = []
                     if (callback || context)
                         for ev, j in events
                             if ((callback && callback isnt ev.callback && callback isnt ev.callback._callback) || (context && context isnt ev.context))
                                 retain.push ev
 
-                    delete this._events[name] if (!retain.length)
+                    delete this._listeners[name] if (!retain.length)
 
             this
 
@@ -81,15 +81,16 @@ define [
         delegate: ->
             delegateEvents(this.delegators, arguments) if this.delegators and this.delegators.size() > 0
 
-            return this if (!this._events)
+            return this if (!this._listeners)
 
             event = arguments[arguments.length - 1]
+            event.delegator = this
             
-            events = this._events[event.name]
-            allEvents = this._events.all
+            listeners = this._listeners[event.name]
+            listeners_for_all = this._listeners.all
 
-            triggerEvents(events, arguments) if (events)
-            triggerEvents(allEvents, arguments) if (allEvents)
+            triggerEvents(listeners, arguments) if (listeners)
+            triggerEvents(listeners_for_all, arguments) if (listeners_for_all)
             
             this
 
@@ -107,15 +108,15 @@ define [
 
             delegateEvents(this.delegators, args) if this.delegators and this.delegators.size() > 0
             
-            return this if not this._events
+            return this if not this._listeners
 
             return this if (!eventsApi(this, 'trigger', name, args))
 
-            events = this._events[name]
-            allEvents = this._events.all
+            listeners = this._listeners[name]
+            listeners_for_all = this._listeners.all
 
-            triggerEvents(events, args) if (events)
-            triggerEvents(allEvents, args) if (allEvents)
+            triggerEvents(listeners, args) if (listeners)
+            triggerEvents(listeners_for_all, args) if (listeners_for_all)
             
             this
 
