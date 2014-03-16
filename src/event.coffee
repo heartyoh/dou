@@ -67,19 +67,19 @@ define [
             this
 
         delegate_on: (delegator) ->
-            this.delegators || (this.delegators = new collection.List());
-            this.delegators.append delegator
+            this._delegators || (this._delegators = new collection.List());
+            this._delegators.append delegator
 
             this
 
         delegate_off: (delegator) ->
-            return this if not this.delegators
-            this.delegators.remove delegator
+            return this if not this._delegators
+            this._delegators.remove delegator
 
             this
 
         delegate: ->
-            delegateEvents(this.delegators, arguments) if this.delegators and this.delegators.size() > 0
+            delegateEvents(this._delegators, arguments) if this._delegators and this._delegators.size() > 0
 
             return this if (!this._listeners)
 
@@ -106,7 +106,7 @@ define [
                 name: name
             });
 
-            delegateEvents(this.delegators, args) if this.delegators and this.delegators.size() > 0
+            delegateEvents(this._delegators, args) if this._delegators and this._delegators.size() > 0
             
             return this if not this._listeners
 
@@ -163,8 +163,8 @@ define [
 
         true
 
-    triggerEvents = (events, args) ->
-        ev.callback.apply(ev.ctx, args) for ev in events
+    triggerEvents = (listeners, args) ->
+        ev.callback.apply(ev.ctx, args) for ev in listeners
 
     delegateEvents = (delegators, args) ->
         delegators.forEach (delegator) ->
