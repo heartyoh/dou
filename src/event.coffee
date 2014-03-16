@@ -84,13 +84,13 @@ define [
             return this if (!this._listeners)
 
             event = arguments[arguments.length - 1]
-            event.delegator = this
+            event.deliverer = this
             
             listeners = this._listeners[event.name]
-            listeners_for_all = this._listeners.all
+            listenersForAll = this._listeners.all
 
             triggerEvents(listeners, arguments) if (listeners)
-            triggerEvents(listeners_for_all, arguments) if (listeners_for_all)
+            triggerEvents(listenersForAll, arguments) if (listenersForAll)
             
             this
 
@@ -102,8 +102,9 @@ define [
             args = [].slice.call(arguments, 1)
 
             args.push({
-                target: this,
-                name: name
+                origin: this,
+                name: name,
+                deliverer: this
             });
 
             delegateEvents(this._delegators, args) if this._delegators and this._delegators.size() > 0
@@ -113,10 +114,10 @@ define [
             return this if (!eventsApi(this, 'trigger', name, args))
 
             listeners = this._listeners[name]
-            listeners_for_all = this._listeners.all
+            listenersForAll = this._listeners.all
 
             triggerEvents(listeners, args) if (listeners)
-            triggerEvents(listeners_for_all, args) if (listeners_for_all)
+            triggerEvents(listenersForAll, args) if (listenersForAll)
             
             this
 

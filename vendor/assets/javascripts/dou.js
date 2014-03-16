@@ -762,7 +762,7 @@
                 return this;
             },
             delegate: function () {
-                var event, listeners, listeners_for_all;
+                var event, listeners, listenersForAll;
                 if (this._delegators && this._delegators.size() > 0) {
                     delegateEvents(this._delegators, arguments);
                 }
@@ -770,23 +770,24 @@
                     return this;
                 }
                 event = arguments[arguments.length - 1];
-                event.delegator = this;
+                event.deliverer = this;
                 listeners = this._listeners[event.name];
-                listeners_for_all = this._listeners.all;
+                listenersForAll = this._listeners.all;
                 if (listeners) {
                     triggerEvents(listeners, arguments);
                 }
-                if (listeners_for_all) {
-                    triggerEvents(listeners_for_all, arguments);
+                if (listenersForAll) {
+                    triggerEvents(listenersForAll, arguments);
                 }
                 return this;
             },
             trigger: function (name) {
-                var args, listeners, listeners_for_all;
+                var args, listeners, listenersForAll;
                 args = [].slice.call(arguments, 1);
                 args.push({
-                    target: this,
-                    name: name
+                    origin: this,
+                    name: name,
+                    deliverer: this
                 });
                 if (this._delegators && this._delegators.size() > 0) {
                     delegateEvents(this._delegators, args);
@@ -798,12 +799,12 @@
                     return this;
                 }
                 listeners = this._listeners[name];
-                listeners_for_all = this._listeners.all;
+                listenersForAll = this._listeners.all;
                 if (listeners) {
                     triggerEvents(listeners, args);
                 }
-                if (listeners_for_all) {
-                    triggerEvents(listeners_for_all, args);
+                if (listenersForAll) {
+                    triggerEvents(listenersForAll, args);
                 }
                 return this;
             },
