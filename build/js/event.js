@@ -18,8 +18,8 @@
         if (!eventsApi(this, 'on', name, [callback, context]) || !callback) {
           return this;
         }
-        this._events || (this._events = {});
-        events = this._events[name] || (this._events[name] = []);
+        this._listeners || (this._listeners = {});
+        events = this._listeners[name] || (this._listeners[name] = []);
         events.push({
           callback: callback,
           context: context,
@@ -42,18 +42,18 @@
       },
       off: function(name, callback, context) {
         var ev, events, i, j, names, retain, _i, _j, _len, _len1;
-        if (!this._events || !eventsApi(this, 'off', name, [callback, context])) {
+        if (!this._listeners || !eventsApi(this, 'off', name, [callback, context])) {
           return this;
         }
         if (!name && !callback && !context) {
-          this._events = void 0;
+          this._listeners = void 0;
           return this;
         }
-        names = name ? [name] : Object.keys(this._events);
+        names = name ? [name] : Object.keys(this._listeners);
         for (i = _i = 0, _len = names.length; _i < _len; i = ++_i) {
           name = names[i];
-          if ((events = this._events[name])) {
-            this._events[name] = retain = [];
+          if ((events = this._listeners[name])) {
+            this._listeners[name] = retain = [];
             if (callback || context) {
               for (j = _j = 0, _len1 = events.length; _j < _len1; j = ++_j) {
                 ev = events[j];
@@ -63,66 +63,67 @@
               }
             }
             if (!retain.length) {
-              delete this._events[name];
+              delete this._listeners[name];
             }
           }
         }
         return this;
       },
       delegate_on: function(delegator) {
-        this.delegators || (this.delegators = new collection.List());
-        this.delegators.append(delegator);
+        this._delegators || (this._delegators = new collection.List());
+        this._delegators.append(delegator);
         return this;
       },
       delegate_off: function(delegator) {
-        if (!this.delegators) {
+        if (!this._delegators) {
           return this;
         }
-        this.delegators.remove(delegator);
+        this._delegators.remove(delegator);
         return this;
       },
       delegate: function() {
-        var allEvents, event, events;
-        if (this.delegators && this.delegators.size() > 0) {
-          delegateEvents(this.delegators, arguments);
+        var event, listeners, listeners_for_all;
+        if (this._delegators && this._delegators.size() > 0) {
+          delegateEvents(this._delegators, arguments);
         }
-        if (!this._events) {
+        if (!this._listeners) {
           return this;
         }
         event = arguments[arguments.length - 1];
-        events = this._events[event.name];
-        allEvents = this._events.all;
-        if (events) {
-          triggerEvents(events, arguments);
+        event.delegator = this;
+        listeners = this._listeners[event.name];
+        listeners_for_all = this._listeners.all;
+        if (listeners) {
+          triggerEvents(listeners, arguments);
         }
-        if (allEvents) {
-          triggerEvents(allEvents, arguments);
+        if (listeners_for_all) {
+          triggerEvents(listeners_for_all, arguments);
         }
         return this;
       },
       trigger: function(name) {
-        var allEvents, args, events;
+        var args, listeners, listeners_for_all;
         args = [].slice.call(arguments, 1);
         args.push({
           target: this,
           name: name
         });
-        if (this.delegators && this.delegators.size() > 0) {
-          delegateEvents(this.delegators, args);
+        if (this._delegators && this._delegators.size() > 0) {
+          delegateEvents(this._delegators, args);
         }
-        if (!this._events) {
+        if (!this._listeners) {
           return this;
         }
         if (!eventsApi(this, 'trigger', name, args)) {
           return this;
         }
-        events = this._events[name];
-        allEvents = this._events.all;
-        if (events) {
-          triggerEvents(events, args);
+        listeners = this._listeners[name];
+        listeners_for_all = this._listeners.all;
+        if (listeners) {
+          triggerEvents(listeners, args);
         }
-        if (allEvents) {
-          triggerEvents(allEvents, args);
+        if (listeners_for_all) {
+          triggerEvents(listeners_for_all, args);
         }
         return this;
       },
@@ -172,11 +173,11 @@
       }
       return true;
     };
-    triggerEvents = function(events, args) {
+    triggerEvents = function(listeners, args) {
       var ev, _i, _len, _results;
       _results = [];
-      for (_i = 0, _len = events.length; _i < _len; _i++) {
-        ev = events[_i];
+      for (_i = 0, _len = listeners.length; _i < _len; _i++) {
+        ev = listeners[_i];
         _results.push(ev.callback.apply(ev.ctx, args));
       }
       return _results;
