@@ -44,6 +44,17 @@ define(['dou', 'collection'], function (dou, collection) {
 
     });
 
+    describe('getAt', function () {
+      it('should return object at the index', function() {
+        target.append('1');
+        target.append('2');
+        target.append('3');
+
+        expect(target.getAt(2)).to.equal('3');
+      });
+
+    });
+
     describe('insert', function () {
       it('should insert item at the specified position of the collection', function() {
         target.append('1');

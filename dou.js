@@ -1,4 +1,4 @@
-/*! Dou v0.0.10 | (c) Hatio, Lab. | MIT License */
+/*! Dou v0.0.11 | (c) Hatio, Lab. | MIT License */
 (function(context) {
   var factories = {}, loaded = {};
   var isArray = Array.isArray || function(obj) {
@@ -595,7 +595,7 @@
                 }
                 return this;
             },
-            get: function (index) {
+            getAt: function (index) {
                 if (this.__collection__) {
                     return this.__collection__[index];
                 }
@@ -614,6 +614,44 @@
             },
             clear: function () {
                 return this.__collection__ = [];
+            },
+            moveForward: function (item) {
+                var index;
+                index = this.indexOf(item);
+                if (index === -1 || index === 0) {
+                    return;
+                }
+                this.__collection__[index] = this.__collection__[index - 1];
+                return this.__collection__[index - 1] = item;
+            },
+            moveBackward: function (item) {
+                var index;
+                index = this.indexOf(item);
+                if (index === -1 || index === this.size() - 1) {
+                    return;
+                }
+                this.__collection__[index] = this.__collection__[index + 1];
+                return this.__collection__[index + 1] = item;
+            },
+            moveToHead: function (item) {
+                var head, index, tail;
+                index = this.indexOf(item);
+                if (index === -1 || index === 0) {
+                    return;
+                }
+                head = this.__collection__.splice(0, index);
+                tail = this.__collection__.splice(1);
+                return this.__collection__ = this.__collection__.concat(head, tail);
+            },
+            moveToTail: function (item) {
+                var head, index, tail;
+                index = this.indexOf(item);
+                if (index === -1 || index === this.size() - 1) {
+                    return;
+                }
+                head = this.__collection__.splice(0, index);
+                tail = this.__collection__.splice(1);
+                return this.__collection__ = head.concat(tail, this.__collection__);
             }
         };
         stack = {
@@ -1028,6 +1066,45 @@
     });
 }.call(this));
 (function () {
+    define('build/js/disposer', [
+        './compose',
+        './advice'
+    ], function (compose, advice) {
+        'use strict';
+        var addDisposer, dispose;
+        addDisposer = function (callback) {
+            if (!this.__disposers) {
+                this.__disposers = [];
+            }
+            return this.__disposers.push(callback);
+        };
+        dispose = function () {
+            var callback, _i, _len, _ref, _results;
+            if (!this.__disposers) {
+                return;
+            }
+            if (this.__disposers) {
+                _ref = this.__disposers;
+                _results = [];
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    callback = _ref[_i];
+                    _results.push(callback.call(this));
+                }
+                return _results;
+            }
+        };
+        return function () {
+            this.addDisposer = addDisposer;
+            if (this.dispose) {
+                compose.mixin(this, advice.withAdvice);
+                return this.after('dispose', dispose);
+            } else {
+                return this.dispose = dispose;
+            }
+        };
+    });
+}.call(this));
+(function () {
     var __hasProp = {}.hasOwnProperty, __extends = function (child, parent) {
             for (var key in parent) {
                 if (__hasProp.call(parent, key))
@@ -1049,8 +1126,9 @@
         './serialize',
         './event',
         './utils',
-        './collection'
-    ], function (compose, advice, lifecycle, property, serialize, event, utils, collection) {
+        './collection',
+        './disposer'
+    ], function (compose, advice, lifecycle, property, serialize, event, utils, collection, disposer) {
         'use strict';
         var define, mixin;
         define = function (options, constructor, prototype) {
@@ -1112,6 +1190,7 @@
             'with': {
                 advice: advice.withAdvice,
                 property: property,
+                disposer: disposer,
                 lifecycle: lifecycle,
                 event: event.withEvent,
                 serialize: serialize,

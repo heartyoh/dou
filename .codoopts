@@ -1,0 +1,11 @@
+--name       "Dou"
+--readme     README.md
+--title      "Dou Developer Documentation"
+--private
+--quiet
+--extension  coffee
+--output     ./doc
+./src
+-
+LICENSE
+CHANGELOG.md

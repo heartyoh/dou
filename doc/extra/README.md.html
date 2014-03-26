@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset='UTF-8'>
+  <title>Dou Developer Documentation</title>
+  <script src='../javascript/application.js'></script>
+  <script src='../javascript/search.js'></script>
+  <link rel='stylesheet' href='../stylesheets/application.css' type='text/css'>
+</head>
+  <body>
+    <div id='base' data-path='../'></div>
+<div id='header'>
+  <div id='menu'>
+    <a href='../extra/README.md.html' title='Dou'>
+      Dou
+    </a>
+    &raquo;
+    <a href='../alphabetical_index.html' title='Index'>
+      Index
+    </a>
+    &raquo;
+    <span class='title'>README.md</span>
+  </div>
+</div>
+    <div id='content'>
+      <nav class='toc'>
+        <p class='title'>
+          <a class='hide_toc' href='#'>
+            <strong>Table of Contents</strong>
+          </a>
+          <small>
+            (<a class='float_toc' href='#'>left</a>)
+          </small>
+        </p>
+      </nav>
+      <div id='filecontents'>
+        <h1 id="dou-">dou </h1><p>Light-weight javascript module framework
+(Inspired by flight - A component-based, event-driven JavaScript framework from Twitter 
+<a href="http://flightjs.github.io/">http://flightjs.github.io/</a>)</p><h2 id="-dou-means-">&#39;dou&#39; means ..</h2>
+<ul>
+<li>都 (all) - Chinese pinyin</li>
+<li>Do you .. - English</li>
+</ul>
+<h2 id="features">Features</h2>
+<ul>
+<li>Advice</li>
+<li>Mixin</li>
+<li>Event</li>
+<li>Property</li>
+<li>Life Cycle</li>
+</ul>
+<h2 id="getting-started">Getting Started</h2><p>It supports packages for nodejs, bower &amp; rails.</p><p>As a gem for rails provides:</p><ul>
+<li>dou-rails</li>
+</ul><p>As a package for nodejs provides:</p><ul>
+<li>dou</li>
+</ul><p>As a package for bower provides:</p><ul>
+<li>dou</li>
+</ul>
+<h3 id="install-the-nodejs-module-with-">Install the nodejs module with:</h3><p><code>npm install dou --save</code></p><h3 id="install-the-bower-module-with-">Install the bower module with:</h3><p><code>bower install dou --save</code></p><h3 id="configure-for-requirejs-as-follow-">Configure for requirejs as follow:</h3>
+<pre><code class="lang-js">requirejs.config({
+    ...
+    paths: {
+        &#39;dou&#39;           : &#39;bower_components/dou/dou&#39;
+    },
+    shim: {
+        dou: {
+            exports: &#39;dou&#39;
+        }
+    },
+    ...
+});
+</code></pre>
+<h3 id="install-the-rails-module-with-gemfile">Install the rails module with Gemfile</h3>
+<pre><code class="lang-ruby">gem &quot;dou-rails&quot;
+</code></pre><p>And run <code>bundle install</code>. The rest of the installation depends on
+whether the asset pipeline is being used.</p><h3 id="rails-3-1-or-greater-with-asset-pipeline-enabled-">Rails 3.1 or greater (with asset pipeline <em>enabled</em>)</h3><p>The dou-rails files will be added to the asset pipeline and available for you to use. If they&#39;re not already in <code>app/assets/javascripts/application.js</code> by default, add these lines:</p><pre><code class="lang-js">//= require dou-min
+</code></pre>
+<h2 id="usage">Usage</h2>
+<h3 id="define-class">Define Class</h3>
+<pre><code class="lang-js">var dou = require(&#39;dou&#39;);
+
+var Super = dou.define({
+    /* members are class members (methods or variable), not instance members */
+    members: {
+        methodA: function() {...},
+        methodB: function() {...}
+    }
+});
+
+var inst = new Super();
+
+inst.methodA();
+</code></pre>
+<h3 id="extend">Extend</h3>
+<pre><code class="lang-js">
+var Clazz = dou.define({
+    extend : Super,
+    members : {
+        methodC: function() {...}
+    }
+});
+
+var inst = new Clazz();
+
+inst.methodA();
+inst.methodB();
+inst.methodC();
+</code></pre>
+<h3 id="constructor">Constructor</h3>
+<pre><code class="lang-js">
+var Clazz = dou.define({
+        extend : Super
+    }, 
+    /* constructor */
+    function(arg) {
+        // construction goes here
+    }
+);
+
+var inst = new Clazz(arg);
+</code></pre>
+<h3 id="mixin">Mixin</h3>
+<pre><code class="lang-js">
+function mixin1() {
+    /* &#39;this&#39; is prototype of Target Class. in this case Clazz.prototype */
+    this.methodD = function() { return &#39;foo&#39;; };
+}
+
+function mixin2() {
+    /* &#39;this&#39; is prototype of Target Class. in this case Clazz.prototype */
+    this.methodE = function() { return &#39;bar&#39;; };
+}
+
+var Clazz = dou.define({
+    extend : Super,
+    mixins : [mixin1, mixin2]
+});
+
+var inst = new Clazz();
+
+inst.methodD();
+inst.methodE();
+</code></pre>
+<h3 id="advice">Advice</h3>
+<pre><code class="lang-js">
+function mixin() {
+    this.before(&#39;methodA&#39;, function(arg) {
+        /* before logic */
+        ...
+    });
+    this.after(&#39;methodB&#39;, function(arg) {
+        /* after logic */
+        ...
+    });
+    this.around(&#39;methodC&#39;, function(origin, arg) {
+        /* before logic */
+        ...
+
+        /* origin logic */
+        origin(arg);
+
+        /* after logic */
+        ...
+    });
+}
+
+var Clazz = dou.define({
+    extend : Super,
+    /* dou.with.advice should be mixed in. */
+    mixins : [dou.with.advice, mixin]
+});
+
+var inst = new Clazz();
+
+inst.methodA(&#39;abc&#39;);
+</code></pre>
+<h3 id="event">Event</h3>
+<pre><code class="lang-js">
+var Clazz = dou.define({
+    mixins : [dou.with.event],
+    members : {
+        test: function(x) {
+            this.trigger(&#39;test&#39;, x);
+        }
+    }
+});
+
+var inst = new Clazz();
+
+inst.on(&#39;test&#39;, function(e) {
+    console.log(e);
+});
+
+inst.test(1);
+
+inst.off(&#39;test&#39;);
+</code></pre>
+<h3 id="property">Property</h3>
+<pre><code class="lang-js">
+var Clazz = dou.define({
+    /* dou.with.property includes dou.with.event mixin */
+    mixins : [dou.with.property]
+});
+
+var inst = new Clazz();
+
+inst.on(&#39;change&#39;, function(e) {
+    console.log(e.before);
+    console.log(e.after);
+});
+
+inst.set(&#39;attr1&#39;, &#39;value1&#39;);
+
+inst.set({
+    attr1 : &#39;value1&#39;,
+    attr2 : &#39;value2&#39;
+});
+
+var val = inst.get(&#39;attr1&#39;); // val should be &#39;value1&#39;
+</code></pre>
+<h3 id="life-cycle">Life Cycle</h3>
+<pre><code class="lang-js">var Clazz = dou.define({
+    /* dou.with.lifecycle includes 2 mixins (dou.with.property and dou.with.event) */
+    mixins : [dou.with.lifecycle],
+    members : {
+        defaults : {
+            attr1: &#39;A&#39;,
+            attr2: &#39;B&#39;
+        }
+    }
+});
+
+var inst = new Clazz();
+inst.initialize({
+    attr2: &#39;b&#39;
+});
+
+var val1 = inst.get(&#39;attr1&#39;); // val1 should be &#39;A&#39;
+var val2 = inst.get(&#39;attr2&#39;); // val2 should be &#39;b&#39;
+</code></pre>
+<h2 id="license">License</h2><p>Copyright (c) 2014 Hearty, Oh. Licensed under the MIT license.</p>
+      </div>
+    </div>
+    <div id='footer'>
+  March 21, 14 11:39:50 by
+  <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
+    Codo
+  </a>
+  2.0.8
+  &#10034;
+  Press H to see the keyboard shortcuts
+  &#10034;
+  <a href='http://twitter.com/netzpirat' target='_parent'>@netzpirat</a>
+  &#10034;
+  <a href='http://twitter.com/_inossidabile' target='_parent'>@_inossidabile</a>
+</div>
+<iframe id='search_frame'></iframe>
+<div id='fuzzySearch'>
+  <input type='text'>
+  <ol></ol>
+</div>
+<div id='help'>
+  <p>
+    Quickly fuzzy find classes, mixins, methods, file:
+  </p>
+  <ul>
+    <li>
+      <span>T</span>
+      Open fuzzy finder dialog
+    </li>
+  </ul>
+  <p>
+    Control the navigation frame:
+  </p>
+  <ul>
+    <li>
+      <span>L</span>
+      Toggle list view
+    </li>
+    <li>
+      <span>C</span>
+      Show class list
+    </li>
+    <li>
+      <span>I</span>
+      Show mixin list
+    </li>
+    <li>
+      <span>F</span>
+      Show file list
+    </li>
+    <li>
+      <span>M</span>
+      Show method list
+    </li>
+    <li>
+      <span>E</span>
+      Show extras list
+    </li>
+  </ul>
+  <p>
+    You can focus and blur the search input:
+  </p>
+  <ul>
+    <li>
+      <span>S</span>
+      Focus search input
+    </li>
+    <li>
+      <span>Esc</span>
+      Blur search input
+    </li>
+  </ul>
+</div>
+  </body>
+</html>

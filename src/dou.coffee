@@ -13,7 +13,18 @@ define [
     './event'
     './utils'
     './collection'
-], (compose, advice, lifecycle, property, serialize, event, utils, collection) ->
+    './disposer'
+], (
+    compose,
+    advice,
+    lifecycle,
+    property,
+    serialize,
+    event,
+    utils,
+    collection,
+    disposer
+) ->
     
     "use strict"
 
@@ -54,6 +65,7 @@ define [
         with:
             advice: advice.withAdvice
             property: property
+            disposer: disposer
             lifecycle: lifecycle
             event: event.withEvent
             serialize: serialize

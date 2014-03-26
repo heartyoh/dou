@@ -40,7 +40,7 @@
         }
         return this;
       },
-      get: function(index) {
+      getAt: function(index) {
         if (this.__collection__) {
           return this.__collection__[index];
         }
@@ -59,6 +59,44 @@
       },
       clear: function() {
         return this.__collection__ = [];
+      },
+      moveForward: function(item) {
+        var index;
+        index = this.indexOf(item);
+        if (index === -1 || index === 0) {
+          return;
+        }
+        this.__collection__[index] = this.__collection__[index - 1];
+        return this.__collection__[index - 1] = item;
+      },
+      moveBackward: function(item) {
+        var index;
+        index = this.indexOf(item);
+        if ((index === -1) || (index === this.size() - 1)) {
+          return;
+        }
+        this.__collection__[index] = this.__collection__[index + 1];
+        return this.__collection__[index + 1] = item;
+      },
+      moveToHead: function(item) {
+        var head, index, tail;
+        index = this.indexOf(item);
+        if (index === -1 || index === 0) {
+          return;
+        }
+        head = this.__collection__.splice(0, index);
+        tail = this.__collection__.splice(1);
+        return this.__collection__ = this.__collection__.concat(head, tail);
+      },
+      moveToTail: function(item) {
+        var head, index, tail;
+        index = this.indexOf(item);
+        if (index === -1 || (index === this.size() - 1)) {
+          return;
+        }
+        head = this.__collection__.splice(0, index);
+        tail = this.__collection__.splice(1);
+        return this.__collection__ = head.concat(tail, this.__collection__);
       }
     };
     stack = {
