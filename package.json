@@ -55,6 +55,9 @@
     "framework",
     "mixin"
   ],
+  "scripts": {
+    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS" 
+  },
   "author": {
     "name": "Hearty, Oh.",
     "email": "heartyoh@gmail.com"

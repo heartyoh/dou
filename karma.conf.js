@@ -81,7 +81,7 @@ module.exports = function(config) {
     // - PhantomJS
     // - IE (only Windows)
     // CLI --browsers Chrome,Firefox,Safari
-    browsers: [process.env.TRAVIS ? 'Firefox' : 'Chrome'],
+    browsers: [process.env.TRAVIS ? 'PhantomJS' : 'Chrome'],
 
     // If browser does not capture in given timeout [ms], kill it
     // CLI --capture-timeout 5000
@@ -100,7 +100,8 @@ module.exports = function(config) {
       'karma-chai',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
-      'karma-coffee-preprocessor'
+      'karma-coffee-preprocessor',
+      'karma-phantomjs-launcher'
       // 'karma-junit-reporter',
       // 'karma-commonjs'
     ]
