@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/heartyoh/dou.svg?branch=master)](https://travis-ci.org/heartyoh/dou)dou 
+dou 
 ===========================
-Light-weight javascript module framework
+[![Build Status](https://travis-ci.org/heartyoh/dou.svg?branch=master)](https://travis-ci.org/heartyoh/dou)Light-weight javascript module framework
 (Inspired by flight - A component-based, event-driven JavaScript framework from Twitter 
 http://flightjs.github.io/)
 
